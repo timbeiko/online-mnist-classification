@@ -5,14 +5,15 @@ import os
 # ============ PREPROCESSING ============
 # Need to create set of files with normalized length
 NORMALIZED_LENGTH = 10 # Need to change this, or just get it from files which all have the same length
+DATA_FOLDER = "/sequences"
 XTrain = []
 YTrain = []
 XTest = []
 YTest = []
 
 print "Loading input to memory"
-for filename in os.listdir(os.getcwd()+ "/sequences"):
-    current_file = open("sequences/" + filename, 'r')
+for filename in os.listdir(os.getcwd()+ DATA_FOLDER):
+    current_file = open(DATA_FOLDER + filename, 'r')
     length_count = 0 
 
     # Training Input
