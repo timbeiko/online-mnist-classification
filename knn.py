@@ -4,8 +4,8 @@ import os
 
 # ============ PREPROCESSING ============
 # Need to create set of files with normalized length
-NORMALIZED_LENGTH = 10 # 10 for 'sequences', '40' for 'preprocessed_sequences'
-DATA_FOLDER = "/sequences"
+NORMALIZED_LENGTH = 40 # 10 for 'sequences', '40' for 'preprocessed_sequences'
+DATA_FOLDER = "/preprocessed_sequences"
 XTrain = []
 YTrain = []
 XTest = []
