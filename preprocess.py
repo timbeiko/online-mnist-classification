@@ -2,8 +2,7 @@ import numpy as np
 import os
 from scipy import signal
 
-NORMALIZED_LENGTH = int(np.round(39.86897142857143))
-#NORMALIZED_LENGTH = 117
+NORMALIZED_LENGTH = 40
 DATA_FOLDER = "/sequences"
 PREPROCESSED_FOLDER = "/preprocessed_sequences"
 

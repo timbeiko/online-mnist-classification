@@ -4,7 +4,7 @@ import os
 
 # ============ PREPROCESSING ============
 # Need to create set of files with normalized length
-NORMALIZED_LENGTH = 10 # Need to change this, or just get it from files which all have the same length
+NORMALIZED_LENGTH = 10 # 10 for 'sequences', '40' for 'preprocessed_sequences'
 DATA_FOLDER = "/sequences"
 XTrain = []
 YTrain = []
@@ -12,8 +12,8 @@ XTest = []
 YTest = []
 
 print "Loading input to memory"
-for filename in os.listdir(os.getcwd()+ DATA_FOLDER):
-    current_file = open(DATA_FOLDER + filename, 'r')
+for filename in os.listdir(os.getcwd() +  DATA_FOLDER):
+    current_file = open(DATA_FOLDER[1 :] + '/' + filename, 'r')
     length_count = 0 
 
     # Training Input
@@ -22,7 +22,7 @@ for filename in os.listdir(os.getcwd()+ DATA_FOLDER):
         while length_count < NORMALIZED_LENGTH:
             line = current_file.readline().split()
             length_count += 1
-            X += map(int, line)
+            X += map(float, line)
         X = np.array(X)
         XTrain.append(X)
 
@@ -43,7 +43,7 @@ for filename in os.listdir(os.getcwd()+ DATA_FOLDER):
         while length_count < NORMALIZED_LENGTH:
             line = current_file.readline().split()
             length_count += 1
-            X += map(int, line)
+            X += map(float, line)
         X = np.array(X)
         XTest.append(X)
 
@@ -67,24 +67,24 @@ YTest = np.array(YTest)
 
 # ========= FEATURE EXTRACTION ==========
 
-# Nothing here for now, should proabbly at least do cross-validation for K
+# Finding best value for K, done below
+for k in range(1, 11):
+    # ============== TRAINING ===============
 
-# =======================================
+    knn = KNeighborsClassifier(n_neighbors=k)
+    knn.fit(XTrain, YTrain)
 
-# ============== TRAINING ===============
+    # =======================================
 
-knn = KNeighborsClassifier(n_neighbors=2)
-knn.fit(XTrain, YTrain)
+    # =========== CLASSIFICATION ============
+    YHat = knn.predict(XTest)
+    different_classes = YHat - YTest # If classes are the same, elements will be 0
+    errors = 0.0
+    for c in different_classes:
+        if c != 0:
+            errors += 1
+    error_rate = errors/len(YHat)
+    print "Number of neighbors: " + str(k) + " Error rate: " + str(error_rate)
+    # =======================================
 
-# =======================================
-
-# =========== CLASSIFICATION ============
-YHat = knn.predict(XTest)
-different_classes = YHat - YTest # If classes are the same, elements will be 0
-errors = 0.0
-for c in different_classes:
-    if c != 0:
-        errors += 1
-error_rate = errors/len(YHat)
-print error_rate
 # =======================================
