@@ -2,7 +2,7 @@ import numpy as np
 import os
 from scipy import signal
 import matplotlib.pyplot as plt
-from rnn import test2
+from rnn import test
 
 
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
 		figx.append(figx[-1]+values[i,0])
 		figy.append(figy[-1]+values[i,1])
 	figy = [-i for i in figy]
-	rnn_result = test2.single_test(values)
+	rnn_result = test.single_test(values)
 	knn_result = -1 #your function
 	svm_result = -1 #your function
 	print "True Lable: " + str(label.argmax())
