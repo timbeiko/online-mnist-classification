@@ -10,6 +10,33 @@ import utils
 
 FLAGS = tf.app.flags.FLAGS
 
+def single_test(x_data):
+	values = np.array([signal.resample(x_data[1:],FLAGS.timesteps)])
+	X = tf.placeholder("float", [None, None, FLAGS.num_dimension])
+	Y = tf.placeholder("float", [None, FLAGS.num_classes])
+	
+	logits = model.RNN(X)
+	# data, labels = utils.read_data(resample = FLAGS.resample)
+
+	prediction = tf.nn.softmax(logits)
+	loss_op = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=Y))
+	optimizer = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate)
+	train_op = optimizer.minimize(loss_op)
+
+	correct_pred = tf.equal(tf.argmax(prediction, 1), tf.argmax(Y, 1))
+	accuracy = tf.reduce_mean(tf.cast(correct_pred, tf.float32))
+
+	saver = tf.train.Saver()
+
+
+	with tf.Session() as sess:
+
+		saver.restore(sess, FLAGS.model_path +"/model.ckpt")
+		print("Model restored.")
+		res = sess.run([prediction],feed_dict={X:values})
+
+	return res[0].argmax()
+
 def test():
 	X = tf.placeholder("float", [None, None, FLAGS.num_dimension])
 	Y = tf.placeholder("float", [None, FLAGS.num_classes])

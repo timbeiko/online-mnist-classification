@@ -7,8 +7,8 @@ import model
 
 
 tf.app.flags.DEFINE_string('data_path', './sequences', 'orginal data path')
-tf.app.flags.DEFINE_string('dataset_path', './', 'processed dataset path')
-tf.app.flags.DEFINE_string('model_path', './trained/', 'saved model path')
+tf.app.flags.DEFINE_string('dataset_path', './rnn', 'processed dataset path')
+tf.app.flags.DEFINE_string('model_path', './rnn/trained', 'saved model path')
 tf.app.flags.DEFINE_boolean('resample', True, 'resample data to same size')
 
 tf.app.flags.DEFINE_integer('batch_size', 64, 'Batch size to use during training.')
