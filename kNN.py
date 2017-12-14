@@ -3,6 +3,7 @@ import numpy as np
 import os
 from scipy import signal
 
+# Setting the required parameters
 k = 1
 resampling_length = 40
 

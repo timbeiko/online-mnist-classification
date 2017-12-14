@@ -3,6 +3,7 @@ import numpy as np
 import os
 from scipy import signal
 
+# Setting the required parameter
 resampling_length = 30
 
 DATA_FOLDER = "/preprocessed_sequences"
