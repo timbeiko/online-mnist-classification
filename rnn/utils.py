@@ -12,18 +12,18 @@ tf.app.flags.DEFINE_string('model_path', './rnn/trained', 'saved model path')
 tf.app.flags.DEFINE_boolean('resample', True, 'resample data to same size')
 
 tf.app.flags.DEFINE_integer('batch_size', 64, 'Batch size to use during training.')
-tf.app.flags.DEFINE_integer('timesteps', 15, 'Lenght of Sequences to process.')
+tf.app.flags.DEFINE_integer('timesteps', 20, 'Lenght of Sequences to process.')
 tf.app.flags.DEFINE_integer('num_hidden', 30, 'Number of units in each layer.')
 tf.app.flags.DEFINE_integer('num_layer', 3, 'Number of Layers.')
 tf.app.flags.DEFINE_integer('num_classes', 10, 'Number of Classes.')
 tf.app.flags.DEFINE_integer('num_dimension', 2, 'Dimension of input.')
-tf.app.flags.DEFINE_integer('training_epoch', 20, 'Batch size to use during training.')
-tf.app.flags.DEFINE_float('learning_rate', 0.0005, 'Learning rate.')
+tf.app.flags.DEFINE_integer('training_epoch', 10, 'Batch size to use during training.')
+tf.app.flags.DEFINE_float('learning_rate', 0.001, 'Learning rate.')
 
 
 FLAGS = tf.app.flags.FLAGS
 
-
+#reading the data and resample them if needs.
 def read_data(training = True, resample = True):
 	labels = []
 	data = []
@@ -57,6 +57,7 @@ def read_data(training = True, resample = True):
 		pickle.dump(labels,f)
 	return data,labels
 
+#return an iterator for batches
 def next_batch(all_data,all_labels, bs):
 	batch_size = bs
 	timesteps = FLAGS.timesteps

@@ -9,7 +9,7 @@ import utils
 
 
 FLAGS = tf.app.flags.FLAGS
-
+#feed one sample and predict the label
 def single_test(x_data):
 	values = np.array([signal.resample(x_data[1:],FLAGS.timesteps)])
 	X = tf.placeholder("float", [None, None, FLAGS.num_dimension])
@@ -36,7 +36,7 @@ def single_test(x_data):
 		res = sess.run([prediction],feed_dict={X:values})
 
 	return res[0].argmax()
-
+#feed all test set and compute the accuracy
 def test():
 	X = tf.placeholder("float", [None, None, FLAGS.num_dimension])
 	Y = tf.placeholder("float", [None, FLAGS.num_classes])

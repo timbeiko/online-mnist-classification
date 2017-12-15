@@ -11,15 +11,16 @@ import utils
 FLAGS = tf.app.flags.FLAGS
 
 
-
+#train the model
 def train():
-
-	X = tf.placeholder("float", [None, None, FLAGS.num_dimension])
+	#define placeholders for batch
+	X = tf.placeholder("float", [None, None, FLAGS.num_dimension]) 
 	Y = tf.placeholder("float", [None, FLAGS.num_classes])
-	
+	#define the model and add to computational graph
 	logits = model.RNN(X)
+	#reading data using utils
 	data, labels = utils.read_data(resample = FLAGS.resample)
-
+	#add optimizer to computational graph
 	prediction = tf.nn.softmax(logits)
 	loss_op = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=Y))
 	optimizer = tf.train.AdamOptimizer(learning_rate=FLAGS.learning_rate)
@@ -33,16 +34,21 @@ def train():
 	saver = tf.train.Saver()
 	with tf.Session() as sess:
 		sess.run(init)
+		#loop for each epoch
 		for epoch in range(FLAGS.training_epoch):
-
+			#loop on each batch
 			for batch_x, batch_y in utils.next_batch(data,labels,batch_size):
+				#prepare the batch for feeding
 				batch_x = batch_x.reshape((batch_size, FLAGS.timesteps, FLAGS.num_dimension))
+				#feeding the batch and optimze the model on the batch
 				sess.run(train_op, feed_dict={X: batch_x, Y: batch_y})
+			#compute the loss and accuracy for last batch of the epoch
 			loss, acc = sess.run([loss_op, accuracy], feed_dict={X: batch_x, Y: batch_y})
 			print("Step " + str(epoch) + ", Minibatch Loss= " + "{:.4f}".format(loss) + ", Training Accuracy= " + "{:.5f}".format(acc))
 			
 			# if (batch_size < 512)and(epoch%2 == 0):
 			# 	batch_size *= 2
+		#compute accuracy on test set
 		count = 0.0
 		acc_sum = 0
 		data_test,labels_test = utils.read_data(training = False, resample = FLAGS.resample)
