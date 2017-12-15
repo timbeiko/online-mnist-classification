@@ -1,11 +1,10 @@
+# This file is a demo for a single sample
+
 import numpy as np
 import os
 from scipy import signal
 import matplotlib.pyplot as plt
 from rnn import test
-
-
-
 
 if __name__ == '__main__':
 	# main()
